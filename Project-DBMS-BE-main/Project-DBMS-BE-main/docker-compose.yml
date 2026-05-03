@@ -1,0 +1,14 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: banking_db_container
+    ports:
+      - "1444:1433" # Map cổng 1444 máy thật vào 1433 container
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourPassword123 # Đặt mật khẩu chung cho cả nhóm
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-U", "sa", "-P", "YourPassword123", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
